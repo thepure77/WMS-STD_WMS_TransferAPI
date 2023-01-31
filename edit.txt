@@ -1,0 +1,88 @@
+[StringLength(200)]
+
+[Column(TypeName = "decimal(18,2)")]
+
+public Guid index { get; set; }
+
+public string updateBy { get; set; }
+public string isActive { get; set; }/* = true;*/
+
+
+
+var _chkModel = await _msProcessStatusDB.msProcessStatus.Where(w => w.index == model.index).ToListAsync();
+                if (_chkModel.Count > 0)
+                {
+                    throw new Exception("DATA DUPPLICATE");
+                }
+
+                var _chkprocessStatusCode = await _msProcessStatusDB.msProcessStatus.Where(w => w.processStatusCode == model.processStatusCode).ToListAsync();
+                if (_chkprocessStatusCode.Count > 0)
+                {
+                    throw new Exception("DATA PROCESSSTATUSCODE DUPPLICATE");
+                }
+
+                var _chkprocessStatusName = await _msProcessStatusDB.msProcessStatus.Where(w => w.processStatusName == model.processStatusName).ToListAsync();
+                if (_chkprocessStatusName.Count > 0)
+                {
+                    throw new Exception("DATA PROCESSSTATUSNAME DUPPLICATE");
+                }
+
+
+isActive = true,
+                    isDelete = false,
+                    createBy = model.createBy,
+                    createdDate = DateTime.Now,
+                    updateBy = model.updateBy,
+                    updatedDate = DateTime.Now,
+
+
+
+
+
+var _resModel = await _msProcessStatusDB.msProcessStatus.FirstOrDefaultAsync(w => w.index == model.index && w.isActive == true);
+                if (_resModel == null)
+                {
+                    throw new Exception("DATA NOT FOUND");
+                }
+
+                _resModel.isActive = false;
+                _resModel.isDelete = true;
+                _resModel.updateBy = model.updateBy;
+                _resModel.updatedDate = DateTime.Now;
+
+
+
+
+
+
+
+if (model.index != Guid.Empty)
+                {
+                    query = query.Where(w => w.index == model.index);
+                }
+                if (!string.IsNullOrEmpty(model.processStatusCode))
+                {
+                    query = query.Where(w => w.processStatusCode == model.processStatusCode);
+                }
+                if (!string.IsNullOrEmpty(model.processStatusName))
+                {
+                    query = query.Where(w => w.processStatusName == model.processStatusName);
+                }
+                if (!string.IsNullOrEmpty(model.isActive))
+                {
+                    query = query.Where(w => w.isActive == (model.isActive.ToUpper() == "TRUE") ? true : false);
+                }
+
+                var lstResult = await query.ToListAsync();
+
+
+
+var _resModel = await _msProcessStatusDB.msProcessStatus.Where(w => w.index == model.index /*&& w.isActive == true*/).Take(1).ToListAsync();
+
+
+
+var _resModel = await _msProcessStatusDB.msProcessStatus.FirstOrDefaultAsync(w => w.index == model.index/* && w.isActive == true*/);
+_resModel.isActive = model.isActive;
+                _resModel.isDelete = model.isDelete;
+                _resModel.updateBy = model.updateBy;
+                _resModel.updatedDate = DateTime.Now;
