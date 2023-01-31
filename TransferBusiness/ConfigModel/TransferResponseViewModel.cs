@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InterfaceBusiness
+{
+    public class TransferResponseViewModel
+    {
+        public string status { get; set; }
+        //public string message { get; set; }
+        public TFMessage message { get; set; }
+    }
+
+    public class TFMessage
+    {
+        public string eFiDocumentField { get; set; }
+        public string eMaterailDocField { get; set; }
+        public string eMessageField { get; set; }
+    }
+}
